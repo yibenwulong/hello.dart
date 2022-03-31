@@ -16,7 +16,7 @@ void variables() {
 void main(List<String> args) {
   //流程控制语句
   if (year >= 2001) {
-  print('21st century');
+  print('21st century'); 
 } else if (year >= 1901) {
   print('20th century');
 }
