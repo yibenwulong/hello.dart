@@ -6,7 +6,7 @@ void variables() {
   var flybyObjects = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'];
   var image = {
     'tags': ['saturn'],
-    'url': '//path/to/saturn.jpg'
+    'url': '//path/to/saturn.jpg' 
   };
 
   print(
