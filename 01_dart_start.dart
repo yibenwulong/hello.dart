@@ -1,55 +1,123 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:math';
+
 // 变量 （https://dart.cn/samples#variables）
 void variables() {
+  print('\n');
+  print('#' * 40);
+  print('变量');
+  print('#' * 40);
+
   var name = 'Voyager I';
   var year = 1977;
   var antennaDiameter = 3.7;
   var flybyObjects = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'];
   var image = {
     'tags': ['saturn'],
-    'url': '//path/to/saturn.jpg' 
+    'url': '//path/to/saturn.jpg'
   };
 
   print(
       'name is $name, year is $year, antennaDiameter is $antennaDiameter, flybyObjects is $flybyObjects, image is $image');
 }
 
-void main(List<String> args) {
-  //流程控制语句
+// 控制流程 (https://dart.cn/samples#control-flow-statements)
+void control_flow_statements() {
+  print('\n');
+  print('#' * 40);
+  print('控制流程');
+  print('#' * 40);
+
+  var year = DateTime.now().year;
+
   if (year >= 2001) {
-  print('21st century'); 
-} else if (year >= 1901) {
-  print('20th century');
+    print('21s centry');
+  } else if (year >= 1901) {
+    print('20th centry');
+  }
+
+  var flybyObjects = ['a', 'b', 'c'];
+  for (final object in flybyObjects) {
+    print(object);
+  }
+
+  for (int month = 1; month <= 12; month++) {
+    print(month);
+  }
+
+  year = 2009;
+  while (year < 2016) {
+    year += 1;
+    print(year);
+  }
 }
 
-for (final object in flybyObjects) {
-  print(object);
-}
-
-for (int month = 1; month <= 12; month++) {
-  print(month);
-}
-
-while (year < 2016) {
-  year += 1;
-}
-//int fibonacci(int n) {
+// 函数 （https://dart.cn/samples#functions）
+int fibonacci(int n) {
   if (n == 0 || n == 1) return n;
   return fibonacci(n - 1) + fibonacci(n - 2);
-  //=> (胖箭头) 简写语法用于仅包含一条语句的函数。该语法在将匿名函数作为参数传递时非常有用：
-  flybyObjects.where((name) => name.contains('turn')).forEach(print);
 }
 
-var result = fibonacci(20);
-//导入
-  // Importing core libraries
-import 'dart:math';
+bool is_hit(String line, String target) {
+  return line.contains(target);
+}
 
-// Importing libraries from external packages
-import 'package:test/test.dart';
+void functions() {
+  print('\n');
+  print('#' * 40);
+  print('函数');
+  print('#' * 40);
 
-// Importing files
-import 'path/to/my_other_file.dart';
-//类
+  var fib = fibonacci(9);
+  print('fib 9 is $fib');
+
+  var flybyObjects = [
+    'hello',
+    'abc',
+    '123',
+    'how do you do',
+    'nice to meet you'
+  ];
+  flybyObjects.where((name) => name.contains('you')).forEach(print);
+
+  var hit_lines = flybyObjects.where((x) => is_hit(x, 'o'));
+  for (var one in hit_lines) {
+    print('one is $one');
+  }
+}
+
+// 注释 (https://dart.cn/samples#comments)
+void comments() {
+  print('\n');
+  print('#' * 40);
+  print('注释');
+  print('#' * 40);
+
+  /// 这是一个文档注释。
+  /// 文档注释用于为库、类以及类的成员添加注释。
+  /// 像 IDE 和 dartdoc 这样的工具可以专门处理文档注释。
+
+  /* 也可以像这样使用单斜杠和星号的注释方式 */
+  print('comments prints nothing.');
+}
+
+// 导入 （https://dart.cn/samples#imports）
+void imports() {
+  print('\n');
+  print('#' * 40);
+  print('导入');
+  print('#' * 40);
+
+  var mypi = pi;
+  print('pi is $mypi');
+
+  var x = pi / 4;
+  var y = sin(x);
+  print('sin(pi/4) is $y');
+}
+
+// 类 （https://dart.cn/samples#classes）
 class Spacecraft {
   String name;
   DateTime? launchDate;
@@ -59,16 +127,17 @@ class Spacecraft {
 
   // Constructor, with syntactic sugar for assignment to members.
   Spacecraft(this.name, this.launchDate) {
-    // Initialization code goes here.
+    // TODO: init.
   }
 
   // Named constructor that forwards to the default one.
   Spacecraft.unlaunched(String name) : this(name, null);
 
-  // Method.
+  // Methods.
   void describe() {
     print('Spacecraft: $name');
-    // Type promotion doesn't work on getters.
+
+    // Type promotion dos not work on getters.
     var launchDate = this.launchDate;
     if (launchDate != null) {
       int years = DateTime.now().difference(launchDate).inDays ~/ 365;
@@ -78,21 +147,45 @@ class Spacecraft {
     }
   }
 }
-//使用 Spacecraft 类：
-var voyager = Spacecraft('Voyager I', DateTime(1977, 9, 5));
-voyager.describe();
 
-var voyager3 = Spacecraft.unlaunched('Voyager III');
-voyager3.describe();
-//扩展类（继承）
+void classes() {
+  print('\n');
+  print('#' * 40);
+  print('类');
+  print('#' * 40);
+
+  var voyager = Spacecraft('Voyager I', DateTime(1977, 9, 5));
+  var voyager3 = Spacecraft.unlaunched('Voyager III');
+
+  voyager.describe();
+  voyager3.describe();
+}
+
+// 扩展类（继承） （https://dart.cn/samples#inheritance）
 class Orbiter extends Spacecraft {
   double altitude;
 
   Orbiter(String name, DateTime launchDate, this.altitude)
       : super(name, launchDate);
+
+  @override
+  void describe() {
+    super.describe();
+    print('altitude is $altitude km');
+  }
 }
-//Mixins
-//Mixin 是一种在多个类层次结构中重用代码的方法。下面的是声明一个 Mixin 的做法：
+
+void inheritance() {
+  print('\n');
+  print('#' * 40);
+  print('扩展类（继承）');
+  print('#' * 40);
+
+  var obt = Orbiter('天宫号', DateTime(2021, 4, 29), 389.2);
+  obt.describe();
+}
+
+// Mixins (https://dart.cn/samples#mixins)
 mixin Piloted {
   int astronauts = 1;
 
@@ -100,52 +193,188 @@ mixin Piloted {
     print('Number of astronauts: $astronauts');
   }
 }
-//现在你只需使用 Mixin 的方式继承这个类就可将该类中的功能添加给其它类。
 
 class PilotedCraft extends Spacecraft with Piloted {
-  // ···
+  PilotedCraft(String name, DateTime launchDate) : super(name, launchDate);
 }
-//接口和抽象类
+
+void mixins() {
+  print('\n');
+  print('#' * 40);
+  print('Mixins');
+  print('#' * 40);
+
+  var plt = PilotedCraft('神舟1号', DateTime(1999, 11, 20));
+  plt.describe();
+  plt.describeCrew();
+}
+
+// 接口和抽象类 （https://dart.cn/samples#interfaces-and-abstract-classes）
 class MockSpaceship implements Spacecraft {
-  // ···
+  @override
+  DateTime? launchDate;
+
+  @override
+  String name;
+
+  MockSpaceship(this.name, this.launchDate);
+
+  @override
+  void describe() {
+    print('Mock Spacecraft: $name');
+  }
+
+  @override
+  int? get launchYear => launchDate?.year;
 }
-//创建一个被任意具体类扩展（或实现）的抽象类。抽象类可以包含抽象方法（不含方法体的方法）。
 
-abstract class Describable {
-  void describe();
+void interface_and_abstract_classes() {
+  print('\n');
+  print('#' * 40);
+  print('接口和抽象类');
+  print('#' * 40);
 
-  void describeWithEmphasis() {
-    print('=========');
-    describe();
-    print('=========');
+  var mock = MockSpaceship('测试飞行器', null);
+  mock.describe();
+}
+
+// 异步 （https://dart.cn/samples#async）
+Future<void> the_async() async {
+  print('\n');
+  print('#' * 40);
+  print('异步');
+  print('#' * 40);
+
+  const oneSecond = Duration(seconds: 1);
+
+  Future<void> printWithDelay1(String message) async {
+    await Future.delayed(oneSecond);
+    print(message);
+  }
+
+  printWithDelay1('过了1秒钟. 1');
+  print('done 1.');
+
+  Future<void> printWithDelay2(String message) {
+    return Future.delayed(oneSecond).then((_) {
+      print(message);
+    });
+  }
+
+  printWithDelay2('过了1秒钟. 2');
+  print('done 2.');
+
+  Future<void> createDescriptions(Iterable<String> objects) async {
+    for (final object in objects) {
+      try {
+        var file = File('$object.txt');
+        if (await file.exists()) {
+          var modified = await file.lastModified();
+          print(
+              'File for $object already exists. It was modified on $modified.');
+          continue;
+        }
+        await file.create();
+        await file.writeAsString('Start Describing $object in this file.');
+        print('File for $object created.');
+      } on IOException catch (e) {
+        print('Cannot create description for $object: $e');
+      }
+    }
+  }
+
+  var the_objects = ['飞机', '火箭', '铲土车'];
+  createDescriptions(the_objects);
+
+  await Future.delayed(Duration(seconds: 5));
+}
+
+// Stream （https://www.jianshu.com/p/f9af079782af）
+Future<void> the_stream() async {
+  print('\n');
+  print('#' * 40);
+  print('Stream');
+  print('#' * 40);
+
+  const oneSecond = Duration(seconds: 1);
+
+  StreamController<double> ctl = StreamController<double>();
+  Stream stm = ctl.stream;
+
+  stm.listen((event) {
+    print('event from controller is: $event');
+  });
+
+  Future<void> addWithDelay(value) async {
+    await Future.delayed(oneSecond);
+    ctl.add(value);
+  }
+
+  addWithDelay(11.1);
+  addWithDelay(22.2);
+  addWithDelay(33.3);
+
+  await Future.delayed(Duration(seconds: 5));
+}
+
+// 异常 （https://dart.cn/samples#exceptions）
+Future<void> show_descriptions(flybyObjects) async {
+  try {
+    for (final object in flybyObjects) {
+      var description = await File('$object.txt').readAsString();
+      print(description);
+    }
+  } on IOException catch (ex) {
+    print('Could not describe object: $ex');
+  } finally {
+    flybyObjects.clear();
   }
 }
-//异步
-const oneSecond = Duration(seconds: 1);
-// ···
-Future<void> printWithDelay(String message) async {
-  await Future.delayed(oneSecond);
-  print(message);
-}
-//异常
-//使用 throw 关键字抛出一个异常：
 
-if (astronauts == 0) {
-  throw StateError('No astronauts.');
-}
-//使用 try 语句配合 on 或 catch（两者也可同时使用）关键字来捕获一个异常:
+void exceptions() {
+  print('\n');
+  print('#' * 40);
+  print('异常');
+  print('#' * 40);
 
-try {
-  for (final object in flybyObjects) {
-    var description = await File('$object.txt').readAsString();
-    print(description);
-  }
-} on IOException catch (e) {
-  print('Could not describe object: $e');
-} finally {
-  flybyObjects.clear();
-}
+  var flybyObjects = ['飞机', '火箭', '铲土车', '手机'];
+  show_descriptions(flybyObjects);
 }
 
+Future<void> main(List<String> args) async {
+  // 变量
+  variables();
 
+  // 控制流程
+  control_flow_statements();
 
+  // 函数
+  functions();
+
+  // 注释
+  comments();
+
+  // 导入
+  imports();
+
+  // 类
+  classes();
+
+  // 扩展类（继承）
+  inheritance();
+
+  // Mixins
+  mixins();
+
+  // 接口和抽象类
+  interface_and_abstract_classes();
+
+  // 异步
+  await the_async();
+
+  // Steam
+  await the_stream();
+
+  // 异常
+  exceptions();
+}
